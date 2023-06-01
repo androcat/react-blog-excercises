@@ -1,35 +1,38 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState } from "react";
+import "./App.css";
+import BlogForm from "./components/BlogForm";
+import ContactForm from "./components/ContactForm";
+import BlogReadingApp from "./components/BlogReadingApp";
+import BookmarkingApp from "./components/BookmarkingApp";
+import CMSApp from "./components/CMSApp";
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [tab, setTab] = useState(0);
+  let app;
+
+  if (tab === 0) {
+    app = <BlogForm />;
+  } else if (tab === 1) {
+    app = <ContactForm />;
+  } else if (tab === 2) {
+    app = <BlogReadingApp />;
+  } else if (tab === 3) {
+    app = <BookmarkingApp />;
+  } else if (tab === 4) {
+    app = <CMSApp />;
+  }
 
   return (
     <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <button onClick={() => setTab(0)}>Blog Form</button>
+      <button onClick={() => setTab(1)}>Contact Form</button>
+      <button onClick={() => setTab(2)}>Blog Reading App</button>
+      <button onClick={() => setTab(3)}>Bookmarking App</button>
+      <button onClick={() => setTab(4)}>CMS App</button>
+
+      {app}
     </>
-  )
+  );
 }
 
-export default App
+export default App;
