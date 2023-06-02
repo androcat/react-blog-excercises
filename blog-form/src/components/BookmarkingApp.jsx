@@ -5,6 +5,7 @@ export default function BookmarkingApp() {
   const [url, setUrl] = useState("");
   const [tag, setTag] = useState("");
   const [bookmarkList, setBookmarkList] = useState([]);
+  const [filteredList, setFilteredList] = useState([]);
 
   function addToBookmarks(event) {
     event.preventDefault();
@@ -15,6 +16,10 @@ export default function BookmarkingApp() {
     setTitle("");
     setUrl("");
     setTag("");
+  }
+
+  function filter(tag) {
+    setFilteredList(bookmarkList.filter((bookmark) => bookmark.tag === tag));
   }
 
   return (
@@ -45,7 +50,15 @@ export default function BookmarkingApp() {
         {bookmarkList.map((bookmark, index) => (
           <li key={index}>
             <a href={bookmark.url}>{bookmark.title}</a>
-            <button onClick>{bookmark.tag}</button>
+            <button onClick={() => filter(bookmark.tag)}>{bookmark.tag}</button>
+          </li>
+        ))}
+      </ul>
+      <h2>Filtered Tags</h2>
+      <ul>
+        {filteredList.map((filteredItem, index) => (
+          <li key={index}>
+            <a href={filteredItem.url}>{filteredItem.title}</a>
           </li>
         ))}
       </ul>
