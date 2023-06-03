@@ -21,11 +21,14 @@ export default function BlogForm() {
     setTitle("");
     setContent("");
   }
-  // console.log({ blogList });
+
   return (
     <>
       <h1>Blog Form</h1>
-      <form onSubmit={addToBlogList}>
+      <form
+        style={{ display: "flex", flexDirection: "column" }}
+        onSubmit={addToBlogList}
+      >
         <input
           type="text"
           value={title}
