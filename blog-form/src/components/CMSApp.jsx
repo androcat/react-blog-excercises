@@ -1,91 +1,107 @@
 import { useState } from "react";
 
-export default function Dogs() {
-  const [dogs, setDogs] = useState([]);
-  const [dogName, setDogName] = useState("");
-  const [dogType, setDogType] = useState("");
+export default function BlogCMS() {
+  const [blogs, setBlogs] = useState([]);
+  const [blogTitle, setBlogTitle] = useState("");
+  const [blogContent, setBlogContent] = useState("");
 
-  const [editingDog, setEditingDog] = useState({ name: "", type: "" });
+  const [editedContent, setEditedContent] = useState({
+    title: "",
+    content: "",
+  });
 
-  function createDog(e) {
+  function createBlog(e) {
     e.preventDefault();
-    const newDog = { name: dogName, type: dogType };
-    setDogs([...dogs, newDog]);
+    const newBlog = { title: blogTitle, content: blogContent };
+    setBlogs([...blogs, newBlog]);
 
-    setDogName("");
-    setDogType("");
+    setBlogTitle("");
+    setBlogContent("");
   }
 
-  function updateDog(e, dogToUpdate) {
+  function updateBlog(e, blogToUpdate) {
     e.preventDefault();
-    const index = dogs.indexOf(dogToUpdate);
-    const updatedDogs = [...dogs];
-    updatedDogs[index] = editingDog;
-    setDogs(updatedDogs);
+    const index = blogs.indexOf(blogToUpdate);
+    const updatedBlogs = [...blogs];
+    updatedBlogs[index] = editedContent;
+    setBlogs(updatedBlogs);
 
-    setEditingDog({ name: "", type: "" });
+    setEditedContent({ title: "", content: "" });
   }
 
-  function deleteDog(dogToDelete) {
-    const index = dogs.findIndex((dog) => dog.name === dogToDelete.name);
-    const updatedDogs = [...dogs];
-    updatedDogs.splice(index, 1);
-    setDogs(updatedDogs);
+  function deleteBlog(blogToDelete) {
+    const index = blogs.findIndex((blog) => blog.title === blogToDelete.title);
+    const updatedBlogs = [...blogs];
+    updatedBlogs.splice(index, 1);
+    setBlogs(updatedBlogs);
   }
 
   return (
     <>
       <div>
-        <h1>Dogs</h1>
+        <h1>Blog posts</h1>
       </div>
-      <form onSubmit={(e) => createDog(e)}>
+      <form
+        style={{ display: "flex", flexDirection: "column" }}
+        onSubmit={(e) => createBlog(e)}
+      >
         <input
           type="text"
-          value={dogName}
-          placeholder="Name"
-          onChange={(e) => setDogName(e.target.value)}
+          value={blogTitle}
+          placeholder="Title..."
+          onChange={(e) => setBlogTitle(e.target.value)}
         />
-        <input
+        <textarea
           type="text"
-          value={dogType}
-          placeholder="Breed"
-          onChange={(e) => setDogType(e.target.value)}
-        />
+          cols="30"
+          rows="10"
+          value={blogContent}
+          placeholder="Content..."
+          onChange={(e) => setBlogContent(e.target.value)}
+        ></textarea>
         <input type="submit" value="Submit" />
       </form>
 
       <ul>
-        {dogs.map((dog, index) => (
+        {blogs.map((blog, index) => (
           <li key={index}>
-            {dog.name} is a {dog.type}
-            <form onSubmit={(e) => updateDog(e, dog)}>
-              <input
-                type="text"
-                name="name"
-                value={editingDog.name}
-                placeholder="Update Name"
-                onChange={(e) =>
-                  setEditingDog({
-                    ...editingDog,
-                    [e.target.name]: e.target.value,
-                  })
-                }
-              />
-              <input
-                type="text"
-                name="type"
-                value={editingDog.type}
-                placeholder="Update Breed"
-                onChange={(e) =>
-                  setEditingDog({
-                    ...editingDog,
-                    [e.target.name]: e.target.value,
-                  })
-                }
-              />
-              <input type="submit" value="Update" />
-              <button onClick={deleteDog}>Delete</button>
-            </form>
+            <h2>{blog.title}</h2>
+            <p>{blog.content}</p>
+            {/* <button onClick={showUpdateForm}>Update</button> */}
+            {
+              <form onSubmit={(e) => updateBlog(e, blog)}>
+                <input
+                  type="text"
+                  name="title"
+                  value={editedContent.title}
+                  placeholder="Update title..."
+                  onChange={(e) =>
+                    setEditedContent({
+                      ...editedContent,
+                      [e.target.name]: e.target.value,
+                    })
+                  }
+                />
+                <textarea
+                  type="text"
+                  cols="30"
+                  rows="10"
+                  name="content"
+                  value={editedContent.content}
+                  placeholder="Update content..."
+                  onChange={(e) =>
+                    setEditedContent({
+                      ...editedContent,
+                      [e.target.name]: e.target.value,
+                    })
+                  }
+                >
+                  hello
+                </textarea>
+                <input type="submit" value="Update" />
+                <button onClick={deleteBlog}>Delete</button>
+              </form>
+            }
           </li>
         ))}
       </ul>
